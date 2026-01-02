@@ -1,0 +1,194 @@
+/* ========== NAVBAR ========== */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Logo/Brand */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: fit-content;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.navbar-brand:hover {
+  opacity: 0.8;
+}
+
+.navbar-logo-svg {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.navbar-logo-text {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+  color: #1a1a1a;
+  letter-spacing: 0.5px;
+}
+
+.navbar-logo {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+  color: #1a1a1a;
+  letter-spacing: 0.5px;
+}
+
+/* Center Navigation Menu */
+.navbar-menu {
+  display: flex;
+  gap: 32px;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar-menu .nav-link {
+  position: relative;
+  font-size: 15px;
+  font-weight: 500;
+  color: #666;
+  transition: color 0.3s ease;
+}
+
+.navbar-menu .nav-link:hover {
+  color: #1a1a1a;
+}
+
+/* Right Side Actions */
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  min-width: fit-content;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #666;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.nav-link:hover {
+  color: #1a1a1a;
+}
+
+.nav-link.login {
+  color: #666;
+  font-size: 14px;
+}
+
+.nav-link.contact {
+  color: #666;
+  font-size: 14px;
+}
+
+/* Sign Up Button */
+.btn-signup {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-signup:hover {
+  background: #1a1a1a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Hamburger Menu */
+.nav-hamburger {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  display: none;
+  padding: 6px 10px;
+  transition: all 0.3s ease;
+}
+
+.nav-hamburger:hover {
+  opacity: 0.7;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+  .navbar-container {
+    padding: 12px 24px;
+  }
+
+  .navbar-menu {
+    gap: 20px;
+  }
+
+  .navbar-menu .nav-link {
+    font-size: 14px;
+  }
+
+  .navbar-actions {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-container {
+    padding: 12px 16px;
+  }
+
+  .navbar-logo {
+    font-size: 18px;
+  }
+
+  .navbar-menu {
+    display: none;
+  }
+
+  .navbar-actions .nav-link:not(.login) {
+    display: none;
+  }
+
+  .navbar-actions .login {
+    display: block;
+  }
+
+  .btn-signup {
+    display: none;
+  }
+
+  .nav-hamburger {
+    display: block;
+  }
+}
