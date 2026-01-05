@@ -10,11 +10,11 @@ export default function LandingPage() {
       <section className="hero">
         <div className="hero-overlay">
           <div className="hero-content">
-            <h1>Signal Core</h1>
-            <p>Instantly understand and fix error logs with AI-powered analysis.</p>
-            <p>Signore automatically analyzes production errors and transforms complex logs into clear, actionable insights in seconds.</p>
+            <h1>SignalCore</h1>
+            <p><strong>API-first. Developer-only. Built for developers by developers.</strong></p>
+            <p>Transform complex error logs into clear, actionable insights with AI-powered analysis. Currently focused on our error explanation API.</p>
             <div className="button-group">
-              <a href="/trial" className="btn primary">Start Trial</a>
+              <a href="/docs" className="btn primary">Get Started</a>
               <a href="/docs" className="btn secondary">Read API Docs</a>
             </div>
           </div>
@@ -84,7 +84,7 @@ export default function LandingPage() {
       {/* How It Works Section */}
       <section className="how-it-works">
         <div className="container">
-          <h2>How Signore Works</h2>
+          <h2>How SignalCore Works</h2>
           <div className="steps">
             <div className="step">
               <div className="step-number">1</div>
@@ -161,65 +161,40 @@ export default function LandingPage() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="testimonials">
+      <section className="built-for-developers">
         <div className="container">
-          <h2>Loved by Developers</h2>
-          <div className="testimonials-grid">
-            <div className="testimonial-card">
-              <div className="stars">⭐⭐⭐⭐⭐</div>
-              <p>"SignalCore reduced our debugging time from hours to minutes. The AI explanations are surprisingly accurate and actionable."</p>
-              <div className="testimonial-author">
-                <div className="author-avatar">AK</div>
-                <div>
-                  <strong>Alex Kumar</strong>
-                  <span>Senior Backend Developer</span>
-                </div>
-              </div>
+          <h2>Built for Developers</h2>
+          <div className="features-list">
+            <div className="feature">
+              <h3>🔧 Simple API Integration</h3>
+              <p>No complex dashboards. Just a clean, powerful API for the developers who want to focus on fixing code.</p>
             </div>
-            <div className="testimonial-card">
-              <div className="stars">⭐⭐⭐⭐⭐</div>
-              <p>"No UI bloat. Just a clean API that actually solves the problem. This is what we needed."</p>
-              <div className="testimonial-author">
-                <div className="author-avatar">JD</div>
-                <div>
-                  <strong>Jordan Davis</strong>
-                  <span>Full-Stack Developer at TechStartup</span>
-                </div>
-              </div>
+            <div className="feature">
+              <h3>⚡ Real-time Analysis</h3>
+              <p>Send an error, get back structured explanations and fix suggestions instantly.</p>
             </div>
-            <div className="testimonial-card">
-              <div className="stars">⭐⭐⭐⭐⭐</div>
-              <p>"We can actually focus on building now instead of firefighting logs. SignalCore is a game-changer."</p>
-              <div className="testimonial-author">
-                <div className="author-avatar">RP</div>
-                <div>
-                  <strong>Rachel Park</strong>
-                  <span>Engineering Lead</span>
-                </div>
-              </div>
+            <div className="feature">
+              <h3>🚀 Built for Scale</h3>
+              <p>From solo projects to production systems, SignalCore grows with you.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="stats">
+      {/* Status Section */}
+      <section className="status">
         <div className="container">
-          <div className="stat-item">
-            <h3>500K+</h3>
-            <p>Errors Analyzed Daily</p>
+          <div className="status-item">
+            <h3>In Early Access</h3>
+            <p>Actively developing core API capabilities</p>
           </div>
-          <div className="stat-item">
-            <h3>1000+</h3>
-            <p>Teams Using Signore</p>
+          <div className="status-item">
+            <h3>Developer-Focused</h3>
+            <p>Built by developers for developers</p>
           </div>
-          <div className="stat-item">
-            <h3>99.9%</h3>
-            <p>Uptime SLA</p>
-          </div>
-          <div className="stat-item">
-            <h3>80%</h3>
-            <p>Avg. MTTR Reduction</p>
+          <div className="status-item">
+            <h3>API-First</h3>
+            <p>No unnecessary UI complexity</p>
           </div>
         </div>
       </section>
@@ -227,11 +202,11 @@ export default function LandingPage() {
       {/* CTA Section */}
       <section className="cta">
         <div className="container">
-          <h2>Start Debugging Smarter Today</h2>
-          <p>Join hundreds of engineering teams who are transforming their error management.</p>
+          <h2>Ready to Debug Smarter?</h2>
+          <p>Get your API key and integrate SignalCore into your error handling pipeline.</p>
           <div className="cta-buttons">
-            <a href="/trial" className="btn primary btn-large">Start Your Free Trial</a>
-            <a href="/contact" className="btn secondary btn-large">Talk to Sales</a>
+            <a href="/docs" className="btn primary btn-large">Get Your API Key</a>
+            <a href="/docs" className="btn secondary btn-large">View Documentation</a>
           </div>
         </div>
       </section>
@@ -274,7 +249,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="footer-bottom">
-            <p>&copy; 2026 Signore. All rights reserved.</p>
+            <p>&copy; 2026 SignalCore. All rights reserved.</p>
           </div>
         </div>
       </footer>

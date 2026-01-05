@@ -47,6 +47,20 @@ body {
   animation: slideInUp 0.8s ease-out;
 }
 
+.badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+}
+
 @keyframes slideInUp {
   from {
     opacity: 0;
@@ -182,6 +196,40 @@ body {
   line-height: 1.6;
   color: #d32f2f;
   font-weight: 500;
+}
+/* ========== BUILT FOR DEVELOPERS SECTION ========== */
+.built-for-developers {
+  padding: 100px 0;
+  background: #f8f9fa;
+}
+
+.built-for-developers h2 {
+  font-size: 42px;
+  text-align: center;
+  margin-bottom: 60px;
+  color: #1a1a1a;
+}
+
+.features-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+}
+
+.features-list .feature {
+  text-align: center;
+}
+
+.features-list .feature h3 {
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: #1a1a1a;
+}
+
+.features-list .feature p {
+  color: #666;
+  line-height: 1.6;
+  font-size: 16px;
 }
 
 /* ========== AUDIENCE SECTION ========== */
@@ -389,27 +437,27 @@ body {
   font-size: 13px;
 }
 
-/* ========== STATS SECTION ========== */
-.stats {
+/* ========== STATUS SECTION ========== */
+.status {
   padding: 80px 0;
   background: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%);
   color: white;
   text-align: center;
 }
 
-.stats .container {
+.status .container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 40px;
 }
 
-.stat-item h3 {
-  font-size: 48px;
+.status-item h3 {
+  font-size: 24px;
   margin-bottom: 10px;
   font-weight: bold;
 }
 
-.stat-item p {
+.status-item p {
   font-size: 16px;
   opacity: 0.9;
 }
@@ -521,11 +569,11 @@ body {
     width: 100%;
   }
 
-  .features, .how-it-works, .benefits, .testimonials, .cta {
+  .features, .how-it-works, .benefits, .built-for-developers, .cta {
     padding: 60px 0;
   }
 
-  .features h2, .how-it-works h2, .benefits h2, .testimonials h2, .cta h2 {
+  .features h2, .how-it-works h2, .benefits h2, .built-for-developers h2, .cta h2 {
     font-size: 32px;
   }
 
@@ -533,12 +581,12 @@ body {
     padding: 30px 20px;
   }
 
-  .stats .container {
+  .status .container {
     grid-template-columns: repeat(2, 1fr);
     gap: 30px;
   }
 
-  .stat-item h3 {
-    font-size: 36px;
+  .status-item h3 {
+    font-size: 24px;
   }
 }

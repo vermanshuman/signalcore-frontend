@@ -1,15 +1,15 @@
-# Signore - Travel Booking Platform
+# SignalCore - Travel Booking Platform
 
 ## Project Description
 
-Signore is a modern, responsive travel booking and destination exploration platform built with React and Vite. It features a professional landing page with a beautiful hero image background, intuitive navigation, and a focus on providing users with curated travel experiences and seamless booking capabilities.
+SignalCore is a modern, responsive travel booking and destination exploration platform built with React and Vite. It features a professional landing page with a beautiful hero image background, intuitive navigation, and a focus on providing users with curated travel experiences and seamless booking capabilities.
 
 ### Key Features
 
 - **Modern Navigation**: Professional header with navigation menu, authentication options, and call-to-action buttons
 - **Hero Landing Page**: Eye-catching hero section with background image and compelling copy
 - **Responsive Design**: Fully responsive layout that adapts to desktop, tablet, and mobile devices
-- **Professional Branding**: Stylized Signore logo with SVG icon
+- **Professional Branding**: Stylized SignalCore logo with SVG icon
 - **Fast Performance**: Built with Vite for optimized build times and hot module replacement
 - **React-based**: Component-driven architecture for maintainability and scalability
 
@@ -34,7 +34,7 @@ Signore is a modern, responsive travel booking and destination exploration platf
 1. **Clone the repository** (if applicable)
    ```bash
    git clone <repository-url>
-   cd signore
+   cd SignalCore
    ```
 
 2. **Install dependencies**
@@ -115,7 +115,7 @@ After running `npm run build`, deploy the contents of the `dist/` folder to your
 ## Project Structure
 
 ```
-signore/
+SignalCore/
 ├── src/
 │   ├── components/
 │   │   ├── Header.jsx          # Navigation header component
@@ -223,7 +223,7 @@ This project is licensed under the MIT License.
 
 ## Support & Contact
 
-For questions or issues, please contact: [support@signore.dev](mailto:support@signore.dev)
+For questions or issues, please contact: [support@SignalCore.dev](mailto:support@SignalCore.dev)
 
 ---
 
