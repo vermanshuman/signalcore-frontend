@@ -21,9 +21,9 @@ body {
 .hero { 
   margin-top: 60px;
   height: calc(100vh - 55px);
-  background: linear-gradient(135deg, rgba(30, 58, 138, 0.5) 0%, rgba(49, 46, 129, 0.5) 50%, rgba(30, 27, 75, 0.5) 100%), url('../assets/logs_bg.png');
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.75) 0%, rgba(49, 46, 129, 0.75) 50%, rgba(30, 27, 75, 0.75) 100%), url('../assets/logs_bg.png');
   background-size: cover;
-  background-position: center;
+  background-position: right;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -194,7 +194,7 @@ body {
 .problem-item {
   font-size: 18px;
   line-height: 1.6;
-  color: #d32f2f;
+  color: #000000;
   font-weight: 500;
 }
 /* ========== BUILT FOR DEVELOPERS SECTION ========== */
