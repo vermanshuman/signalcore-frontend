@@ -24,8 +24,8 @@ export default function Header() {
 
         {/* Right Side - Auth & CTA */}
         <div className="navbar-actions">
-          <a href="#" className="nav-link login">Log In</a>
-          <button className="btn-signup">Get API Key</button>
+          {/*<a href="#" className="nav-link login">Log In</a>
+          <button className="btn-signup">Get API Key</button>*/}
           <button className="nav-hamburger" onClick={() => setMenuOpen(!menuOpen)}>
             ☰
           </button>
