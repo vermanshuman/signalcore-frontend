@@ -18,8 +18,8 @@ export default function Header() {
         
         {/* Center Navigation */}
         <nav className="navbar-menu">
-          <a href="#" className="nav-link">Docs</a>
-          <a href="#" className="nav-link">Pricing</a>
+          {/*<a href="#" className="nav-link">Docs</a>*/}
+          {/*<a href="#" className="nav-link">Pricing</a>*/}
         </nav>
 
         {/* Right Side - Auth & CTA */}
