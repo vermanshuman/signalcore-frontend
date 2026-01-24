@@ -1,0 +1,38 @@
+.navbar {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    z-index: 100;
+}
+
+/* 🔥 THIS IS THE KEY FIX */
+.navbar-container {
+    width: 100%;
+    padding: 0 40px;        /* left padding like original */
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;  /* FORCE LEFT */
+}
+
+/* Logo group */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Icon */
+.navbar-logo-svg {
+    width: 22px;
+    height: 22px;
+}
+
+/* Text */
+.navbar-logo-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111;
+    line-height: 1;
+}
