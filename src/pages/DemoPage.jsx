@@ -20,6 +20,8 @@ function getInitialMode() {
     return params.get("mode") === "agent" ? "agent" : "explain";
 }
 
+const safeArray = (v) => Array.isArray(v) ? v : [];
+
 export default function DemoPage() {
     const [logs, setLogs] = useState("");
     const [mode, setMode] = useState(getInitialMode);
@@ -53,7 +55,7 @@ export default function DemoPage() {
             const data = await post(endpoint, payload);
             setResult(data);
         } catch (e) {
-            setError(e.message);
+            setError(e.message || "Request failed");
         } finally {
             setLoading(false);
         }
@@ -78,67 +80,37 @@ export default function DemoPage() {
                     </h2>
 
                     {/* MODE SWITCH */}
-                    <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            gap: "12px",
-                            marginBottom: "16px",
-                        }}
-                    >
+                    <div style={{ display: "flex", justifyContent: "center", gap: "12px", marginBottom: "16px" }}>
                         <button
                             className={`btn ${mode === "explain" ? "primary" : ""}`}
-                            onClick={() => setMode("explain")}
+                            onClick={() => {
+                                setMode("explain");
+                                setResult(null);
+                            }}
                         >
                             Error Explanation
                         </button>
 
                         <button
                             className={`btn ${mode === "agent" ? "primary" : ""}`}
-                            onClick={() => setMode("agent")}
+                            onClick={() => {
+                                setMode("agent");
+                                setResult(null);
+                            }}
                         >
                             Incident Investigator (Agent)
                         </button>
                     </div>
 
                     {/* SAMPLE BUTTONS */}
-                    <div
-                        style={{
-                            display: "flex",
-                            gap: "12px",
-                            justifyContent: "center",
-                            marginBottom: "16px",
-                            flexWrap: "wrap",
-                        }}
-                    >
-                        <button
-                            onClick={() =>
-                                setSample("TypeError: Cannot read property id of undefined")
-                            }
-                            className="btn sample"
-                        >
+                    <div style={{ display: "flex", gap: "12px", justifyContent: "center", marginBottom: "16px", flexWrap: "wrap" }}>
+                        <button onClick={() => setSample("TypeError: Cannot read property id of undefined")} className="btn sample">
                             JavaScript
                         </button>
-
-                        <button
-                            onClick={() =>
-                                setSample(
-                                    "NullReferenceException: Object reference not set to an instance of an object"
-                                )
-                            }
-                            className="btn sample"
-                        >
+                        <button onClick={() => setSample("NullReferenceException: Object reference not set to an instance of an object")} className="btn sample">
                             .NET
                         </button>
-
-                        <button
-                            onClick={() =>
-                                setSample(
-                                    "AttributeError: 'NoneType' object has no attribute 'name'"
-                                )
-                            }
-                            className="btn sample"
-                        >
+                        <button onClick={() => setSample("AttributeError: 'NoneType' object has no attribute 'name'")} className="btn sample">
                             Python
                         </button>
                     </div>
@@ -151,12 +123,7 @@ export default function DemoPage() {
                             placeholder="Paste error log here..."
                             rows={8}
                             disabled={loading}
-                            style={{
-                                width: "100%",
-                                padding: "14px",
-                                marginBottom: "20px",
-                                opacity: loading ? 0.6 : 1,
-                            }}
+                            style={{ width: "100%", padding: "14px", marginBottom: "20px" }}
                         />
 
                         <button
@@ -168,9 +135,28 @@ export default function DemoPage() {
                         </button>
                     </div>
 
-                    {error && (
-                        <div style={{ color: "#b00020", marginBottom: "24px" }}>
-                            {error}
+                    {error && <div style={{ color: "#b00020", marginBottom: "24px" }}>{error}</div>}
+
+                    {/* ERROR EXPLANATION RESULT */}
+                    {result && mode === "explain" && (
+                        <div className="features-grid">
+                            {result.summary && <ResultCard title="Summary"><p>{result.summary}</p></ResultCard>}
+                            {result.diagnosis && <ResultCard title="Diagnosis"><p>{result.diagnosis}</p></ResultCard>}
+                            {safeArray(result.checks).length > 0 && (
+                                <ResultCard title="Checks">
+                                    <ul>{safeArray(result.checks).map((c, i) => <li key={i}>{c}</li>)}</ul>
+                                </ResultCard>
+                            )}
+                            {safeArray(result.fix).length > 0 && (
+                                <ResultCard title="Fix Suggestions">
+                                    <ul>{safeArray(result.fix).map((f, i) => <li key={i}>{f}</li>)}</ul>
+                                </ResultCard>
+                            )}
+                            {typeof result.confidence === "number" && (
+                                <ResultCard title="Confidence">
+                                    <strong>{Math.round(result.confidence * 100)}%</strong>
+                                </ResultCard>
+                            )}
                         </div>
                     )}
 
@@ -179,50 +165,38 @@ export default function DemoPage() {
                         <div className="features-grid">
                             <ResultCard title="Agent Execution">
                                 <ul style={{ listStyle: "none", paddingLeft: 0 }}>
-                                    {result.agent_steps.map((s, i) => (
-                                        <li key={i}>
-                                            <strong>{s.step}</strong> → {s.result}
-                                        </li>
+                                    {safeArray(result.agent_steps).map((s, i) => (
+                                        <li key={i}><strong>{s.step}</strong> → {s.result}</li>
                                     ))}
                                 </ul>
                             </ResultCard>
 
                             <ResultCard title="Agent Score">
-                                <strong>{Math.round(result.agent_score * 100)}%</strong>
+                                <strong>{Math.round((result.agent_score || 0) * 100)}%</strong>
                             </ResultCard>
 
                             <ResultCard title="Root Cause">
-                                <p>{result.root_cause}</p>
+                                <p>{result.root_cause || "—"}</p>
                             </ResultCard>
 
                             <ResultCard title="Contributing Factors">
-                                <ul>
-                                    {result.contributing_factors.map((c, i) => (
-                                        <li key={i}>{c}</li>
-                                    ))}
-                                </ul>
+                                <ul>{safeArray(result.contributing_factors).map((c, i) => <li key={i}>{c}</li>)}</ul>
                             </ResultCard>
 
                             <ResultCard title="What to Check Next">
-                                <ul>
-                                    {result.checks_to_perform.map((c, i) => (
-                                        <li key={i}>{c}</li>
-                                    ))}
-                                </ul>
+                                <ul>{safeArray(result.checks_to_perform).map((c, i) => <li key={i}>{c}</li>)}</ul>
                             </ResultCard>
 
                             <ResultCard title="Fix Priority">
-                                <strong>{result.fix_priority}</strong>
+                                <strong>{result.fix_priority || "—"}</strong>
                             </ResultCard>
 
                             <ResultCard title="Recommended Fix">
-                                <p>{result.recommended_fix}</p>
+                                <p>{result.recommended_fix || "—"}</p>
                             </ResultCard>
 
                             <ResultCard title="Confidence">
-                                <strong>
-                                    {Math.round(result.confidence * 100)}%
-                                </strong>
+                                <strong>{Math.round((result.confidence || 0) * 100)}%</strong>
                             </ResultCard>
                         </div>
                     )}
