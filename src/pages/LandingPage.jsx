@@ -1,4 +1,3 @@
-import Header from "../components/layout/Header";
 import Hero from "../components/sections/Hero";
 import Problem from "../components/sections/Problem";
 import Features from "../components/sections/Features";
@@ -12,11 +11,22 @@ export default function LandingPage() {
     return (
         <>
             <Hero />
+
             <Problem />
+
             <Features />
+
             <HowItWorks />
+
             <Audience />
-            <CTA />
+
+            <CTA
+                title="Try the Incident Investigator Agent"
+                subtitle="A task-bounded AI agent that investigates production incidents using internal tools."
+                primaryLabel="Open Live Demo"
+                primaryHref="/#/demo?mode=agent"
+            />
+
             <Footer />
         </>
     );

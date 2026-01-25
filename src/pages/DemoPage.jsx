@@ -12,8 +12,17 @@ function ResultCard({ title, children }) {
     );
 }
 
+function getInitialMode() {
+    const hash = window.location.hash || "";
+    const query = hash.split("?")[1];
+    if (!query) return "explain";
+    const params = new URLSearchParams(query);
+    return params.get("mode") === "agent" ? "agent" : "explain";
+}
+
 export default function DemoPage() {
     const [logs, setLogs] = useState("");
+    const [mode, setMode] = useState(getInitialMode);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [result, setResult] = useState(null);
@@ -31,7 +40,17 @@ export default function DemoPage() {
         setResult(null);
 
         try {
-            const data = await post("/v1/demo/error-explain", { logs });
+            const endpoint =
+                mode === "agent"
+                    ? "/v1/demo/incident-investigator"
+                    : "/v1/demo/error-explain";
+
+            const payload =
+                mode === "agent"
+                    ? { error_log: logs }
+                    : { logs };
+
+            const data = await post(endpoint, payload);
             setResult(data);
         } catch (e) {
             setError(e.message);
@@ -40,18 +59,47 @@ export default function DemoPage() {
         }
     }
 
+    function setSample(sample) {
+        setLogs(sample);
+        setResult(null);
+        setError("");
+    }
+
     return (
         <>
-            {loading && <LoadingOverlay message="Analyzing error…" />}
+            {loading && <LoadingOverlay message="Analyzing…" />}
 
             <section className="features">
                 <div className="container">
-                    <h2 style={{ marginBottom: "16px" }}>Live Error Explanation Demo</h2>
+                    <h2 style={{ marginBottom: "12px" }}>
+                        {mode === "agent"
+                            ? "Incident Investigator Agent"
+                            : "Live Error Explanation Demo"}
+                    </h2>
 
-                    <p style={{ textAlign: "center", color: "#666", marginBottom: "32px" }}>
-                        Demo usage is limited for evaluation purposes.
-                        Production deployments enforce server-side rate limiting.
-                    </p>
+                    {/* MODE SWITCH */}
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            gap: "12px",
+                            marginBottom: "16px",
+                        }}
+                    >
+                        <button
+                            className={`btn ${mode === "explain" ? "primary" : ""}`}
+                            onClick={() => setMode("explain")}
+                        >
+                            Error Explanation
+                        </button>
+
+                        <button
+                            className={`btn ${mode === "agent" ? "primary" : ""}`}
+                            onClick={() => setMode("agent")}
+                        >
+                            Incident Investigator (Agent)
+                        </button>
+                    </div>
 
                     {/* SAMPLE BUTTONS */}
                     <div
@@ -65,55 +113,31 @@ export default function DemoPage() {
                     >
                         <button
                             onClick={() =>
-                                setLogs("TypeError: Cannot read property id of undefined")
+                                setSample("TypeError: Cannot read property id of undefined")
                             }
-                            style={{
-                                padding: "10px 14px",
-                                borderRadius: "8px",
-                                border: "1px solid #1e3a8a",
-                                background: "#ffffff",
-                                color: "#1e3a8a",
-                                fontWeight: 600,
-                                cursor: "pointer",
-                            }}
+                            className="btn secondary"
                         >
                             JavaScript
                         </button>
 
                         <button
                             onClick={() =>
-                                setLogs(
+                                setSample(
                                     "NullReferenceException: Object reference not set to an instance of an object"
                                 )
                             }
-                            style={{
-                                padding: "10px 14px",
-                                borderRadius: "8px",
-                                border: "1px solid #1e3a8a",
-                                background: "#ffffff",
-                                color: "#1e3a8a",
-                                fontWeight: 600,
-                                cursor: "pointer",
-                            }}
+                            className="btn secondary"
                         >
                             .NET
                         </button>
 
                         <button
                             onClick={() =>
-                                setLogs(
+                                setSample(
                                     "AttributeError: 'NoneType' object has no attribute 'name'"
                                 )
                             }
-                            style={{
-                                padding: "10px 14px",
-                                borderRadius: "8px",
-                                border: "1px solid #1e3a8a",
-                                background: "#ffffff",
-                                color: "#1e3a8a",
-                                fontWeight: 600,
-                                cursor: "pointer",
-                            }}
+                            className="btn secondary"
                         >
                             Python
                         </button>
@@ -121,27 +145,26 @@ export default function DemoPage() {
 
                     {/* INPUT */}
                     <div className="feature-card" style={{ marginBottom: "32px" }}>
-            <textarea
-                value={logs}
-                onChange={(e) => setLogs(e.target.value)}
-                placeholder="Paste error log here..."
-                rows={8}
-                disabled={loading}
-                style={{
-                    width: "100%",
-                    padding: "14px",
-                    marginBottom: "20px",
-                    opacity: loading ? 0.6 : 1,
-                    cursor: loading ? "not-allowed" : "text",
-                }}
-            />
+                        <textarea
+                            value={logs}
+                            onChange={(e) => setLogs(e.target.value)}
+                            placeholder="Paste error log here..."
+                            rows={8}
+                            disabled={loading}
+                            style={{
+                                width: "100%",
+                                padding: "14px",
+                                marginBottom: "20px",
+                                opacity: loading ? 0.6 : 1,
+                            }}
+                        />
 
                         <button
                             onClick={handleRun}
                             disabled={!logs.trim() || loading}
                             className="btn primary"
                         >
-                            Run Analysis
+                            {mode === "agent" ? "Investigate Incident" : "Run Analysis"}
                         </button>
                     </div>
 
@@ -151,47 +174,54 @@ export default function DemoPage() {
                         </div>
                     )}
 
-                    {result && (
+                    {/* AGENT RESULT */}
+                    {result && mode === "agent" && (
                         <div className="features-grid">
-                            <ResultCard title="Summary">
-                                <p>{result.summary}</p>
+                            <ResultCard title="Agent Execution">
+                                <ul style={{ listStyle: "none", paddingLeft: 0 }}>
+                                    {result.agent_steps.map((s, i) => (
+                                        <li key={i}>
+                                            <strong>{s.step}</strong> → {s.result}
+                                        </li>
+                                    ))}
+                                </ul>
                             </ResultCard>
 
-                            <ResultCard title="Error Layer">
-                                <strong>{result.error_layer}</strong>
+                            <ResultCard title="Agent Score">
+                                <strong>{Math.round(result.agent_score * 100)}%</strong>
                             </ResultCard>
 
-                            <ResultCard title="Diagnosis">
-                                <p>{result.diagnosis}</p>
+                            <ResultCard title="Root Cause">
+                                <p>{result.root_cause}</p>
                             </ResultCard>
 
-                            <ResultCard title="Checks">
+                            <ResultCard title="Contributing Factors">
                                 <ul>
-                                    {result.checks?.map((c, i) => (
+                                    {result.contributing_factors.map((c, i) => (
                                         <li key={i}>{c}</li>
                                     ))}
                                 </ul>
                             </ResultCard>
 
-                            <ResultCard title="Fix Suggestions">
+                            <ResultCard title="What to Check Next">
                                 <ul>
-                                    {result.fix?.map((f, i) => (
-                                        <li key={i}>{f}</li>
+                                    {result.checks_to_perform.map((c, i) => (
+                                        <li key={i}>{c}</li>
                                     ))}
                                 </ul>
                             </ResultCard>
 
-                            <ResultCard title="Not the Issue">
-                                <ul>
-                                    {result.not_the_issue?.map((n, i) => (
-                                        <li key={i}>{n}</li>
-                                    ))}
-                                </ul>
+                            <ResultCard title="Fix Priority">
+                                <strong>{result.fix_priority}</strong>
+                            </ResultCard>
+
+                            <ResultCard title="Recommended Fix">
+                                <p>{result.recommended_fix}</p>
                             </ResultCard>
 
                             <ResultCard title="Confidence">
                                 <strong>
-                                    {Math.round((result.confidence || 0) * 100)}%
+                                    {Math.round(result.confidence * 100)}%
                                 </strong>
                             </ResultCard>
                         </div>

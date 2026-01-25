@@ -1,16 +1,86 @@
-# React + Vite
+# SignalCore — API-First Intelligence Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+SignalCore is a production-grade, API-first intelligence platform for **structured error analysis** and **task-bounded AI agents**.
 
-Currently, two official plugins are available:
+This repository is a **freelance / portfolio showcase**, designed to look and behave like a real internal tool — not a toy SaaS.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## What This Demo Shows
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 1. Error Explanation API
+A deterministic API that converts raw error logs into structured diagnostics.
 
-## Expanding the ESLint configuration
+**Output includes**
+- Summary
+- Diagnosis
+- Checks to perform
+- Fix suggestions
+- Confidence score
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+No chat. No hallucinations. Structured output only.
+
+---
+
+### 2. Incident Investigator Agent (AI Agent Demo)
+
+A **single, task-bounded AI agent** that demonstrates real agent orchestration.
+
+**Agent behavior**
+1. Classifies the error
+2. Calls internal error-explanation tool
+3. Synthesizes an incident report
+4. Assigns fix priority and agent score
+
+**Agent output**
+- Root cause
+- Contributing factors
+- What to check next
+- Fix priority (P0 / P1)
+- Confidence
+- Agent execution trace
+
+This is **not** a chatbot and **not** open-ended AI.
+
+---
+
+## Architecture
+
+### Frontend
+- React + Vite
+- HashRouter (GitHub Pages compatible)
+- No API keys exposed
+- Structured card-based UI
+- One-click execution
+
+### Backend
+- FastAPI
+- API proxy pattern
+- Secure server-side API key usage
+- Demo-only rate limiting (5/day)
+- Explicit AI agent execution logs
+
+---
+
+## Why This Matters
+
+This demo intentionally avoids:
+- Chat UIs
+- Autonomous agents
+- Over-engineering
+- Fake AI claims
+
+Instead, it demonstrates how **AI agents are actually built in production**:
+- Deterministic
+- Tool-driven
+- Bounded
+- Observable
+- Auditable
+
+---
+
+## Running Locally
+
+### Backend
+```bash
+uvicorn app.main:app --reload
