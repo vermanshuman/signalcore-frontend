@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { post } from "../services/apiClient";
+import LoadingOverlay from "../components/common/LoadingOverlay";
 import "../styles/landing.css";
 
 function ResultCard({ title, children }) {
@@ -11,29 +12,23 @@ function ResultCard({ title, children }) {
     );
 }
 
-function Skeleton() {
-    return (
-        <div className="feature-card" style={{ marginTop: "30px" }}>
-            <div style={{ height: "16px", width: "40%", background: "#e5e7eb", marginBottom: "14px" }} />
-            <div style={{ height: "12px", width: "100%", background: "#e5e7eb", marginBottom: "10px" }} />
-            <div style={{ height: "12px", width: "90%", background: "#e5e7eb", marginBottom: "10px" }} />
-            <div style={{ height: "12px", width: "80%", background: "#e5e7eb" }} />
-        </div>
-    );
-}
-
 export default function DemoPage() {
     const [logs, setLogs] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [result, setResult] = useState(null);
-    const [showRaw, setShowRaw] = useState(false);
+
+    const lastRunAt = useRef(0);
+    const DEBOUNCE_MS = 1500;
 
     async function handleRun() {
+        const now = Date.now();
+        if (now - lastRunAt.current < DEBOUNCE_MS) return;
+        lastRunAt.current = now;
+
         setLoading(true);
         setError("");
         setResult(null);
-        setShowRaw(false);
 
         try {
             const data = await post("/v1/demo/error-explain", { logs });
@@ -46,84 +41,163 @@ export default function DemoPage() {
     }
 
     return (
-        <section className="features">
-            <div className="container">
-                <h2 style={{ marginBottom: "20px" }}>Live Error Explanation Demo</h2>
+        <>
+            {loading && <LoadingOverlay message="Analyzing error…" />}
 
-                <p style={{ textAlign: "center", color: "#666", marginBottom: "40px" }}>
-                    Demo usage is limited for evaluation purposes.
-                    Production deployments enforce server-side rate limiting.
-                </p>
+            <section className="features">
+                <div className="container">
+                    <h2 style={{ marginBottom: "16px" }}>Live Error Explanation Demo</h2>
 
-                <div className="feature-card" style={{ marginBottom: "32px" }}>
-          <textarea
-              value={logs}
-              onChange={(e) => setLogs(e.target.value)}
-              placeholder="Paste error log here..."
-              rows={8}
-              style={{
-                  width: "100%",
-                  padding: "14px",
-                  fontSize: "14px",
-                  marginBottom: "20px",
-              }}
-          />
+                    <p style={{ textAlign: "center", color: "#666", marginBottom: "32px" }}>
+                        Demo usage is limited for evaluation purposes.
+                        Production deployments enforce server-side rate limiting.
+                    </p>
 
-                    <button
-                        onClick={handleRun}
-                        disabled={!logs.trim() || loading}
-                        className="btn primary"
+                    {/* SAMPLE BUTTONS */}
+                    <div
+                        style={{
+                            display: "flex",
+                            gap: "12px",
+                            justifyContent: "center",
+                            marginBottom: "16px",
+                            flexWrap: "wrap",
+                        }}
                     >
-                        {loading ? "Running…" : "Run Analysis"}
-                    </button>
+                        <button
+                            onClick={() =>
+                                setLogs("TypeError: Cannot read property id of undefined")
+                            }
+                            style={{
+                                padding: "10px 14px",
+                                borderRadius: "8px",
+                                border: "1px solid #1e3a8a",
+                                background: "#ffffff",
+                                color: "#1e3a8a",
+                                fontWeight: 600,
+                                cursor: "pointer",
+                            }}
+                        >
+                            JavaScript
+                        </button>
+
+                        <button
+                            onClick={() =>
+                                setLogs(
+                                    "NullReferenceException: Object reference not set to an instance of an object"
+                                )
+                            }
+                            style={{
+                                padding: "10px 14px",
+                                borderRadius: "8px",
+                                border: "1px solid #1e3a8a",
+                                background: "#ffffff",
+                                color: "#1e3a8a",
+                                fontWeight: 600,
+                                cursor: "pointer",
+                            }}
+                        >
+                            .NET
+                        </button>
+
+                        <button
+                            onClick={() =>
+                                setLogs(
+                                    "AttributeError: 'NoneType' object has no attribute 'name'"
+                                )
+                            }
+                            style={{
+                                padding: "10px 14px",
+                                borderRadius: "8px",
+                                border: "1px solid #1e3a8a",
+                                background: "#ffffff",
+                                color: "#1e3a8a",
+                                fontWeight: 600,
+                                cursor: "pointer",
+                            }}
+                        >
+                            Python
+                        </button>
+                    </div>
+
+                    {/* INPUT */}
+                    <div className="feature-card" style={{ marginBottom: "32px" }}>
+            <textarea
+                value={logs}
+                onChange={(e) => setLogs(e.target.value)}
+                placeholder="Paste error log here..."
+                rows={8}
+                disabled={loading}
+                style={{
+                    width: "100%",
+                    padding: "14px",
+                    marginBottom: "20px",
+                    opacity: loading ? 0.6 : 1,
+                    cursor: loading ? "not-allowed" : "text",
+                }}
+            />
+
+                        <button
+                            onClick={handleRun}
+                            disabled={!logs.trim() || loading}
+                            className="btn primary"
+                        >
+                            Run Analysis
+                        </button>
+                    </div>
+
+                    {error && (
+                        <div style={{ color: "#b00020", marginBottom: "24px" }}>
+                            {error}
+                        </div>
+                    )}
+
+                    {result && (
+                        <div className="features-grid">
+                            <ResultCard title="Summary">
+                                <p>{result.summary}</p>
+                            </ResultCard>
+
+                            <ResultCard title="Error Layer">
+                                <strong>{result.error_layer}</strong>
+                            </ResultCard>
+
+                            <ResultCard title="Diagnosis">
+                                <p>{result.diagnosis}</p>
+                            </ResultCard>
+
+                            <ResultCard title="Checks">
+                                <ul>
+                                    {result.checks?.map((c, i) => (
+                                        <li key={i}>{c}</li>
+                                    ))}
+                                </ul>
+                            </ResultCard>
+
+                            <ResultCard title="Fix Suggestions">
+                                <ul>
+                                    {result.fix?.map((f, i) => (
+                                        <li key={i}>{f}</li>
+                                    ))}
+                                </ul>
+                            </ResultCard>
+
+                            <ResultCard title="Not the Issue">
+                                <ul>
+                                    {result.not_the_issue?.map((n, i) => (
+                                        <li key={i}>{n}</li>
+                                    ))}
+                                </ul>
+                            </ResultCard>
+
+                            <ResultCard title="Confidence">
+                                <strong>
+                                    {Math.round((result.confidence || 0) * 100)}%
+                                </strong>
+                            </ResultCard>
+                        </div>
+                    )}
                 </div>
-
-                {loading && <Skeleton />}
-
-                {error && (
-                    <div style={{ color: "#b00020", marginBottom: "24px" }}>
-                        {error}
-                    </div>
-                )}
-
-                {result && (
-                    <div className="features-grid">
-                        <ResultCard title="Summary">
-                            <p>{result.summary}</p>
-                        </ResultCard>
-
-                        <ResultCard title="Error Layer">
-                            <strong>{result.error_layer}</strong>
-                        </ResultCard>
-
-                        <ResultCard title="Diagnosis">
-                            <p>{result.diagnosis}</p>
-                        </ResultCard>
-
-                        <ResultCard title="Checks">
-                            <ul>
-                                {result.checks?.map((c, i) => <li key={i}>{c}</li>)}
-                            </ul>
-                        </ResultCard>
-
-                        <ResultCard title="Fix Suggestions">
-                            <ul>
-                                {result.fix?.map((f, i) => <li key={i}>{f}</li>)}
-                            </ul>
-                        </ResultCard>
-
-                        <ResultCard title="Not the Issue">
-                            <ul>
-                                {result.not_the_issue?.map((n, i) => <li key={i}>{n}</li>)}
-                            </ul>
-                        </ResultCard>
-
-                        <ResultCard title="Confidence">
-                            <strong>{Math.round((result.confidence || 0) * 100)}%</strong>
-                        </ResultCard>
-                    </div>
-                )}
-            </div>
-        </section>
+            </section>
+        </>
     );
 }

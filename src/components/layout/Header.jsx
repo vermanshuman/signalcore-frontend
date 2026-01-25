@@ -1,10 +1,11 @@
+import { Link } from "react-router-dom";
 import "./Header.css";
 
 export default function Header() {
     return (
         <header className="navbar">
             <div className="navbar-container">
-                <div className="navbar-brand">
+                <Link to="/" className="navbar-brand" style={{ textDecoration: "none" }}>
                     <svg
                         className="navbar-logo-svg"
                         viewBox="0 0 32 32"
@@ -16,7 +17,7 @@ export default function Header() {
                         />
                     </svg>
                     <span className="navbar-logo-text">SignalCore</span>
-                </div>
+                </Link>
             </div>
         </header>
     );

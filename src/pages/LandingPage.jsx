@@ -11,7 +11,6 @@ import "../styles/landing.css";
 export default function LandingPage() {
     return (
         <>
-            <Header />
             <Hero />
             <Problem />
             <Features />

@@ -1,15 +1,24 @@
 import { createHashRouter } from "react-router-dom";
+import Layout from "../components/layout/Layout";
 import LandingPage from "../pages/LandingPage";
 import DemoPage from "../pages/DemoPage";
 
 const router = createHashRouter([
     {
         path: "/",
-        element: <LandingPage />,
+        element: (
+            <Layout>
+                <LandingPage />
+            </Layout>
+        ),
     },
     {
         path: "/demo",
-        element: <DemoPage />,
+        element: (
+            <Layout>
+                <DemoPage />
+            </Layout>
+        ),
     },
 ]);
 
