@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 export default function Hero() {
     return (
         <section className="hero">
@@ -14,8 +15,8 @@ export default function Hero() {
                         AI-powered analysis. Currently focused on our error explanation API.
                     </p>
                     <div className="button-group">
-                        <a href="/demo" className="btn primary">Try Live Demo</a>
-                        <a href="/docs" className="btn secondary">Read API Docs</a>
+                        <Link to="/demo" className="btn primary">Try Live Demo</Link>
+                        <Link to="/docs" className="btn secondary">Read API Docs</Link>
                     </div>
                 </div>
             </div>
