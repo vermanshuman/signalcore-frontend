@@ -115,7 +115,7 @@ export default function DemoPage() {
                             onClick={() =>
                                 setSample("TypeError: Cannot read property id of undefined")
                             }
-                            className="btn secondary"
+                            className="btn sample"
                         >
                             JavaScript
                         </button>
@@ -126,7 +126,7 @@ export default function DemoPage() {
                                     "NullReferenceException: Object reference not set to an instance of an object"
                                 )
                             }
-                            className="btn secondary"
+                            className="btn sample"
                         >
                             .NET
                         </button>
@@ -137,7 +137,7 @@ export default function DemoPage() {
                                     "AttributeError: 'NoneType' object has no attribute 'name'"
                                 )
                             }
-                            className="btn secondary"
+                            className="btn sample"
                         >
                             Python
                         </button>
