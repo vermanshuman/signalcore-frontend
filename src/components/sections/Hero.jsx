@@ -14,7 +14,7 @@ export default function Hero() {
                         AI-powered analysis. Currently focused on our error explanation API.
                     </p>
                     <div className="button-group">
-                        <a href="/docs" className="btn primary">Get Started</a>
+                        <a href="/demo" className="btn primary">Try Live Demo</a>
                         <a href="/docs" className="btn secondary">Read API Docs</a>
                     </div>
                 </div>
